@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+
+  camera:
+    image: alpine
+    container_name: iot-camera
+    networks:
+      iot-network:
+        ipv4_address: 192.168.100.10
+    command: >
+      sh -c "while true;
+      do ping -c 1 192.168.100.11;
+      ping -c 1 192.168.100.12;
+      sleep 2;
+      done"
+
+  thermostat:
+    image: alpine
+    container_name: iot-thermostat
+    networks:
+      iot-network:
+        ipv4_address: 192.168.100.11
+    command: >
+      sh -c "while true;
+      do ping -c 1 192.168.100.10;
+      sleep 5;
+      done"
+
+  smartbulb:
+    image: alpine
+    container_name: iot-smartbulb
+    networks:
+      iot-network:
+        ipv4_address: 192.168.100.12
+    command: >
+      sh -c "while true;
+      do ping -c 1 192.168.100.10;
+      sleep 10;
+      done"
+
+networks:
+  iot-network:
+    external: true
+

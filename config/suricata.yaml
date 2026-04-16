@@ -1,0 +1,22 @@
+%YAML 1.1
+---
+vars:
+  address-groups:
+    HOME_NET: "192.168.100.0/24"
+    EXTERNAL_NET: "!$HOME_NET"
+
+default-log-dir: /var/log/suricata/
+
+outputs:
+  - fast:
+      enabled: yes
+      filename: fast.log
+  - eve-log:
+      enabled: yes
+      filename: eve.json
+
+af-packet:
+  - interface: eth0
+
+rule-files:
+  - /etc/suricata/rules/iot-rules.rules

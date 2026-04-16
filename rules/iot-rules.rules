@@ -1,0 +1,11 @@
+# Rule 1 - Detect any ICMP ping
+alert icmp any any -> any any (msg:"IoT ICMP Ping Detected"; sid:1000001; rev:1;)
+
+# Rule 2 - Detect ping flood (more than 10 pings rapidly = possible attack)
+alert icmp any any -> any any (msg:"POSSIBLE PING FLOOD ATTACK"; threshold: type threshold, track by_src, count 10, seconds 2; sid:1000002; rev:1;)
+
+# Rule 3 - Detect port scanning (someone trying many ports)
+alert tcp any any -> any any (msg:"POSSIBLE PORT SCAN DETECTED"; flags:S; threshold: type threshold, track by_src, count 5, seconds 2; sid:1000003; rev:1;)
+
+# Rule 4 - Detect SSH brute force attempt
+alert tcp any any -> any 22 (msg:"POSSIBLE SSH BRUTE FORCE"; threshold: type threshold, track by_src, count 5, seconds 10; sid:1000004; rev:1;)
